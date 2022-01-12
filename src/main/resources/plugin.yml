@@ -1,0 +1,7 @@
+name: BlockDataTagsAPI
+version: '${project.version}'
+main: org.kayteam.blockdatatagsapi.BlockDataTagsAPI
+api-version: 1.13
+softdepend: [ PlaceholderAPI ]
+authors: [ SirOswaldo ]
+website: https://kayteam.org
