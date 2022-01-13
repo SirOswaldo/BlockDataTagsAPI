@@ -10,7 +10,7 @@
 </repository>
 
 <dependency>
-    <groupId>com.github.SirOswaldo</groupId>
+<groupId>com.github.SirOswaldo</groupId>
     <artifactId>BlockDataTagsAPI</artifactId>
     <version>0.0.4</version>
     <scope>provided</scope>
