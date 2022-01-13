@@ -9,6 +9,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.json.simple.JSONObject;
 import org.kayteam.blockdatatagsapi.BlockDataTagsAPI;
+import org.kayteam.blockdatatagsapi.BlockDataTagsManager;
 import org.kayteam.blockdatatagsapi.events.BlockDataTagsRemoveEvent;
 import org.kayteam.blockdatatagsapi.util.BlockDataTagsUtil;
 
@@ -26,27 +27,40 @@ public class BlockBreakListener implements Listener
     {
         Player player = event.getPlayer();
         Block block = event.getBlock();
-        BlockDataTagsRemoveEvent blockDataTagsRemoveEvent = new BlockDataTagsRemoveEvent(player, block);
-        blockDataTagsAPI.getServer().getPluginManager().callEvent(blockDataTagsRemoveEvent);
-        if (blockDataTagsRemoveEvent.isCancelled())
+        String id = BlockDataTagsUtil.getId(block);
+        BlockDataTagsManager blockDataTagsManager = blockDataTagsAPI.getBlockDataTagsManager();
+        if (blockDataTagsManager.containBlockDataTags(id))
         {
-            event.setCancelled(true);
-        }
-        else
-        {
-            event.setDropItems(false);
-            JSONObject jsonObject = blockDataTagsAPI.getBlockDataTagsManager().getBlockDataTags(BlockDataTagsUtil.getId(block));
-            for (ItemStack itemStack:block.getDrops())
+            JSONObject jsonObject = blockDataTagsManager.getBlockDataTags(id);
+            BlockDataTagsRemoveEvent blockDataTagsRemoveEvent = new BlockDataTagsRemoveEvent(player, block, id, jsonObject);
+            blockDataTagsAPI.getServer().getPluginManager().callEvent(blockDataTagsRemoveEvent);
+            if (blockDataTagsRemoveEvent.isCancelled())
             {
-                NBTItem nbtItem = new NBTItem(itemStack);
-                for (Object key:jsonObject.keySet())
-                {
-                    String keyString = (String) key;
-                    nbtItem.setString(keyString, (String) jsonObject.get(key));
-                }
-                block.getLocation().getWorld().dropItem(block.getLocation(), nbtItem.getItem());
+                event.setCancelled(true);
             }
-            blockDataTagsAPI.getBlockDataTagsManager().removeBlockDataTags(BlockDataTagsUtil.getId(block));
+            else
+            {
+                if (blockDataTagsRemoveEvent.isBreakBlock())
+                {
+                    event.setDropItems(false);
+                    for (ItemStack itemStack:block.getDrops())
+                    {
+                        NBTItem nbtItem = new NBTItem(itemStack);
+                        for (Object key:jsonObject.keySet())
+                        {
+                            String keyString = (String) key;
+                            nbtItem.setString(keyString, (String) jsonObject.get(key));
+                        }
+                        block.getLocation().getWorld().dropItem(block.getLocation(), nbtItem.getItem());
+                    }
+                    blockDataTagsAPI.getBlockDataTagsManager().removeBlockDataTags(BlockDataTagsUtil.getId(block));
+                }
+                else
+                {
+                    event.setCancelled(true);
+                    blockDataTagsManager.updateBlockDataTags(id, blockDataTagsRemoveEvent.getJsonObject());
+                }
+            }
         }
     }
 

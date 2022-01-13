@@ -8,7 +8,8 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.block.Action;
 import org.json.simple.JSONObject;
 
-public class PlayerInteractBlockDataTagsEvent extends Event implements Cancellable {
+public class PlayerInteractBlockDataTagsEvent extends Event implements Cancellable
+{
     private static final HandlerList handlerList = new HandlerList();
     private boolean cancel = false;
 
@@ -17,6 +18,7 @@ public class PlayerInteractBlockDataTagsEvent extends Event implements Cancellab
     private final Action action;
     private final String id;
     private final JSONObject jsonObject;
+    private boolean cancelInteract = false;
 
     public PlayerInteractBlockDataTagsEvent(Player player, Block block, Action action, String id, JSONObject jsonObject)
     {
@@ -50,6 +52,16 @@ public class PlayerInteractBlockDataTagsEvent extends Event implements Cancellab
     public JSONObject getJsonObject()
     {
         return jsonObject;
+    }
+
+    public boolean isCancelInteract()
+    {
+        return cancelInteract;
+    }
+
+    public void setCancelInteract(boolean cancelInteract)
+    {
+        this.cancelInteract = cancelInteract;
     }
 
     @Override

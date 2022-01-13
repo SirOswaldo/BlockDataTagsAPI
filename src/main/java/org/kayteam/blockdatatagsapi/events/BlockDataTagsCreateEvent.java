@@ -6,11 +6,11 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
+import org.json.simple.JSONObject;
 import org.kayteam.blockdatatagsapi.util.BlockDataTagsUtil;
 
-import java.util.HashMap;
-
-public class BlockDataTagsCreateEvent extends Event implements Cancellable {
+public class BlockDataTagsCreateEvent extends Event implements Cancellable
+{
 
     private static final HandlerList handlerList = new HandlerList();
     private boolean cancel = false;
@@ -19,13 +19,15 @@ public class BlockDataTagsCreateEvent extends Event implements Cancellable {
     private final Block block;
     private final ItemStack itemStack;
     private final String id;
-    private final HashMap<String, Object> dataTags = new HashMap<>();
+    private final JSONObject dataTags;
 
-    public BlockDataTagsCreateEvent(Player player, Block block, ItemStack itemStack) {
+    public BlockDataTagsCreateEvent(Player player, Block block, ItemStack itemStack, JSONObject dataTags)
+    {
         this.player = player;
         this.block = block;
         this.itemStack = itemStack;
         id = BlockDataTagsUtil.getId(block);
+        this.dataTags = dataTags;
     }
 
     public Player getPlayer() {
@@ -44,7 +46,8 @@ public class BlockDataTagsCreateEvent extends Event implements Cancellable {
         return id;
     }
 
-    public HashMap<String, Object> getDataTags() {
+    public JSONObject getDataTags()
+    {
         return dataTags;
     }
 

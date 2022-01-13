@@ -71,8 +71,7 @@ public class BlockDataTagsManager
         try
         {
             JSONObject jsonObject = (JSONObject) parser.parse(JSONUtil.getJSONString(dataTags));
-            blocks.put(id, jsonObject);
-            saveBlockDataTags(id);
+            addBlockDataTag(id, jsonObject);
         }
         catch (ParseException e)
         {
@@ -80,19 +79,24 @@ public class BlockDataTagsManager
         }
     }
 
-    public void addBlockDataTags(String id, Map<String, Object> dataTags)
+    public void addBlockDataTags(String id, Map<String, String> dataTags)
     {
         JSONParser parser = new JSONParser();
         try
         {
             JSONObject jsonObject = (JSONObject) parser.parse(JSONUtil.getJSONString(dataTags));
-            blocks.put(id, jsonObject);
-            saveBlockDataTags(id);
+            addBlockDataTag(id, jsonObject);
         }
         catch (ParseException e)
         {
             e.printStackTrace();
         }
+    }
+
+    public void addBlockDataTag(String id, JSONObject jsonObject)
+    {
+        blocks.put(id, jsonObject);
+        saveBlockDataTags(id);
     }
 
     public JSONObject getBlockDataTags(String id)
@@ -110,6 +114,12 @@ public class BlockDataTagsManager
     public boolean containBlockDataTags(String id)
     {
         return blocks.containsKey(id);
+    }
+
+    public void updateBlockDataTags(String id, JSONObject jsonObject)
+    {
+        blocks.put(id, jsonObject);
+        saveBlockDataTags(id);
     }
 
 }

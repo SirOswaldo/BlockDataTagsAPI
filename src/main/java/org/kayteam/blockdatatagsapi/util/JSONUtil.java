@@ -1,5 +1,6 @@
 package org.kayteam.blockdatatagsapi.util;
 
+import de.tr7zw.changeme.nbtapi.NBTItem;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -10,7 +11,7 @@ import java.util.Map;
 public class JSONUtil
 {
 
-    public static String getJSONString(Object[][] datas)
+    public static String getJSONString(String[][] datas)
     {
         StringBuilder json = new StringBuilder("{");
         for (Object[] data:datas)
@@ -27,7 +28,7 @@ public class JSONUtil
         return json.toString();
     }
 
-    public static String getJSONString(Map<String, Object> datas)
+    public static String getJSONString(Map<String, String> datas)
     {
         StringBuilder json = new StringBuilder("{");
         for (String key:datas.keySet())
@@ -38,6 +39,23 @@ public class JSONUtil
             json.append(":");
             json.append("\"");
             json.append(datas.get(key));
+            json.append("\"");
+        }
+        json.append("}");
+        return json.toString();
+    }
+
+    public static String getJSONString(NBTItem nbtItem)
+    {
+        StringBuilder json = new StringBuilder("{");
+        for (String key:nbtItem.getKeys())
+        {
+            json.append("\"");
+            json.append(key);
+            json.append("\"");
+            json.append(":");
+            json.append("\"");
+            json.append(nbtItem.getString(key));
             json.append("\"");
         }
         json.append("}");
