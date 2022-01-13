@@ -8,9 +8,10 @@
     <id>jitpack.io</id>
     <url>https://jitpack.io</url>
 </repository>
-
+```
+```xml
 <dependency>
-<groupId>com.github.SirOswaldo</groupId>
+    <groupId>com.github.SirOswaldo</groupId>
     <artifactId>BlockDataTagsAPI</artifactId>
     <version>0.0.4</version>
     <scope>provided</scope>
@@ -22,7 +23,8 @@
 repositories {
     maven { url 'https://jitpack.io' }
 }
-
+```
+```groovy
 dependencies {
     implementation 'com.github.SirOswaldo:BlockDataTagsAPI:Tag'
 }
