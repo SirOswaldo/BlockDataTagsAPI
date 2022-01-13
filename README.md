@@ -2,15 +2,19 @@
 <a>Add data tags to blocks easy!</a>
 
 <h2>How to include the API</h2>
+
 <a>Maven repository</a>
-```XML
+
+```xml
 <repository>
     <id>jitpack.io</id>
     <url>https://jitpack.io</url>
 </repository>
 ```
+
 <a>Maven dependency</a>
-```XML
+
+```xml
 <dependency>
     <groupId>com.github.SirOswaldo</groupId>
     <artifactId>BlockDataTagsAPI</artifactId>
@@ -20,12 +24,15 @@
 ```
 
 <a>Gradle repository</a>
+
 ```groovy
 repositories {
     maven { url 'https://jitpack.io' }
 }
 ```
+
 <a>Gradle dependency</a>
+
 ```groovy
 dependencies {
     implementation 'com.github.SirOswaldo:BlockDataTagsAPI:Tag'
