@@ -1,4 +1,4 @@
-<h1 style="color: #fc8403">BlockDataTagsAPI</h1>
+<h1>BlockDataTagsAPI</h1>
 <a>Add data tags to blocks easy!</a>
 
 <h2>How to include the API</h2>
