@@ -1,10 +1,13 @@
 package org.kayteam.blockdatatagsapi.listeners;
 
+import de.tr7zw.changeme.nbtapi.NBTItem;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.inventory.ItemStack;
+import org.json.simple.JSONObject;
 import org.kayteam.blockdatatagsapi.BlockDataTagsAPI;
 import org.kayteam.blockdatatagsapi.events.BlockDataTagsRemoveEvent;
 import org.kayteam.blockdatatagsapi.util.BlockDataTagsUtil;
@@ -31,7 +34,20 @@ public class BlockBreakListener implements Listener
         }
         else
         {
+            event.setDropItems(false);
+            JSONObject jsonObject = blockDataTagsAPI.getBlockDataTagsManager().getBlockDataTags(BlockDataTagsUtil.getId(block));
+            for (ItemStack itemStack:block.getDrops())
+            {
+                NBTItem nbtItem = new NBTItem(itemStack);
+                for (Object key:jsonObject.keySet())
+                {
+                    String keyString = (String) key;
+                    nbtItem.setString(keyString, (String) jsonObject.get(key));
+                }
+                block.getLocation().getWorld().dropItem(block.getLocation(), nbtItem.getItem());
+            }
             blockDataTagsAPI.getBlockDataTagsManager().removeBlockDataTags(BlockDataTagsUtil.getId(block));
         }
     }
+
 }
